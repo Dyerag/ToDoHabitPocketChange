@@ -13,8 +13,7 @@
         android:theme="@style/Theme.ToDoHabitPocketChange">
         <activity
             android:name=".PocketChange"
-            android:exported="false"
-            android:launchMode="singleTask"/>
+            android:exported="false" />
         <activity
             android:name=".HabitTracking"
             android:exported="false" />
