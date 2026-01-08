@@ -1,14 +1,23 @@
 package com.example.todohabitpocketchange;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+    private ArrayList<TodoItem> incompleteTodoList;
+    private ArrayList<TodoItem> completeTodoList;
+    private TodoAdapter adapter;
+    private ActivityResultLauncher<Intent> addTodoLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

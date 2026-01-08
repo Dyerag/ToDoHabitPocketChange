@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">ToDoHabitPocketChange</string>
+    <string name="app_name">Pocket</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="todo">Todo</string>
+    <string name="habit">Habits</string>
+    <string name="pocket_money">PocketMoney</string>
+    <string name="delete">Delete</string>
 </resources>

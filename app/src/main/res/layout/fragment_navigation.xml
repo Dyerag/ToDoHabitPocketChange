@@ -11,17 +11,18 @@
         android:id="@+id/todo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Todo"/>
+        android:text="@string/todo"/>
 
     <Button
         android:id="@+id/habit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Vaner"/>
+        android:text="@string/habit"/>
 
     <Button
-        android:id="@+id/pocket_change"
+        android:id="@+id/pocket_money"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/pocket_money"/>
 
 </LinearLayout>

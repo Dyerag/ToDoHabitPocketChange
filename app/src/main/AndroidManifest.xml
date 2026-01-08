@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDoHabitPocketChange">
         <activity
-            android:name=".PocketChange"
+            android:name=".PocketMoney"
             android:exported="false" />
         <activity
             android:name=".HabitTracking"
