@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TodoAdapter extends ArrayAdapter<TodoItem> {
-    public TodoAdapter(@NonNull Context context, List<TodoItem> todos) {
+    private OnTodoChangedListener listener;
+
+    public TodoAdapter(@NonNull Context context, List<TodoItem> todos, OnTodoChangedListener listener) {
         super(context, 0, todos);
+        this.listener = listener;
     }
 
     @Override
@@ -39,11 +42,15 @@ public class TodoAdapter extends ArrayAdapter<TodoItem> {
         createdDate.setText(todo.getCreated().toString());
         completed.setChecked(todo.getCompleted());
 
+        completed.setOnCheckedChangeListener(null);
+        completed.setChecked(todo.getCompleted());
+
         completed.setOnCheckedChangeListener((buttonView, isChecked) -> {
             todo.setCompleted(isChecked);
-            notifyDataSetChanged();
+            if (listener != null) {
+                listener.onTodoChanged();
+            }
             MoneyStorage.save(getContext(), isChecked ? todo.getReward() : -todo.getReward());
-            TodoStorage.save(getContext(), new ArrayList<>(getAllItems()));
         });
 
         deleteBtn.setOnClickListener(v -> {

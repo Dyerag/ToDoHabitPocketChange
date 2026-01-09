@@ -5,4 +5,10 @@
     <string name="habit">Vaner</string>
     <string name="pocket_money">Lommepenge</string>
     <string name="delete">Slet</string>
+    <string name="add_todo">Tilføj Todo</string>
+    <string name="save">Gem</string>
+    <string name="title">Titel</string>
+    <string name="reward_money">Penge belønning</string>
+    <string name="unfinished_tasks">Ufærdiggjorte opgaver</string>
+    <string name="finished_tasks">færdiggjorte opgaver</string>
 </resources>

@@ -5,4 +5,10 @@
     <string name="habit">Habits</string>
     <string name="pocket_money">PocketMoney</string>
     <string name="delete">Delete</string>
+    <string name="add_todo">Add Todo</string>
+    <string name="save">Save</string>
+    <string name="title">Title</string>
+    <string name="reward_money">Reward money</string>
+    <string name="unfinished_tasks">Unfinished Tasks</string>
+    <string name="finished_tasks">Finished Tasks</string>
 </resources>
