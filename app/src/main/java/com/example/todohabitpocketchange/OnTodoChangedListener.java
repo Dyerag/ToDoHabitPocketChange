@@ -1,5 +1,7 @@
 package com.example.todohabitpocketchange;
 
 public interface OnTodoChangedListener {
-    void onTodoChanged();
+    void onToggleCompleted(TodoItem todo);
+    void onDelete(TodoItem todo);
 }
+

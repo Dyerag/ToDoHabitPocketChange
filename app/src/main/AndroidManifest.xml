@@ -13,13 +13,18 @@
         android:theme="@style/Theme.ToDoHabitPocketChange">
         <activity
             android:name=".AddTodoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".PocketMoney"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask"/>
+
         <activity
             android:name=".HabitTracking"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

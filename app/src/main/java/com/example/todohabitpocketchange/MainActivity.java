@@ -2,7 +2,9 @@ package com.example.todohabitpocketchange;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,7 +21,6 @@ import com.google.gson.internal.NumberLimits;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<TodoItem> todoList;
     private ArrayList<TodoItem> unfinishedTodos;
     private ArrayList<TodoItem> finishedTodos;
     private TodoAdapter unfinishedAdapter;
@@ -38,26 +39,77 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        TextView unfinishedHeader = findViewById(R.id.unfinishedHeader);
+        TextView finishedHeader = findViewById(R.id.finishedHeader);
+
         ListView unfinishedListView = findViewById(R.id.unfinishedList);
         ListView finishedListView = findViewById(R.id.finishedList);
         FloatingActionButton febAdd = findViewById(R.id.fabAdd);
 
-        todoList = TodoStorage.load(this);
-
-        unfinishedTodos = new ArrayList<>();
-        finishedTodos = new ArrayList<>();
-
-        sortTodoList();
-
-        unfinishedAdapter = new TodoAdapter(this, unfinishedTodos, () -> {
-            sortTodoList();
-            TodoStorage.save(this, todoList);
+        unfinishedHeader.setOnClickListener(v -> {
+            if (unfinishedListView.getVisibility() == View.VISIBLE) {
+                unfinishedListView.setVisibility(View.GONE);
+                unfinishedHeader.setText("Unfinished Tasks ▶");
+            } else {
+                unfinishedListView.setVisibility(View.VISIBLE);
+                unfinishedHeader.setText("Unfinished Tasks ▼");
+            }
         });
 
-        finishedAdapter = new TodoAdapter(this, finishedTodos, ()->{
-            sortTodoList();
-            TodoStorage.save(this,todoList);
+        finishedHeader.setOnClickListener(v -> {
+            if (finishedListView.getVisibility() == View.VISIBLE) {
+                finishedListView.setVisibility(View.GONE);
+                finishedHeader.setText("Finished Tasks ▶");
+            } else {
+                finishedListView.setVisibility(View.VISIBLE);
+                finishedHeader.setText("Finished Tasks ▼");
+            }
         });
+
+        unfinishedTodos = TodoStorage.loadUnfinished(this);
+        finishedTodos = TodoStorage.loadFinished(this);
+
+        unfinishedAdapter = new TodoAdapter(
+                this,
+                unfinishedTodos,
+                new OnTodoChangedListener() {
+                    @Override
+                    public void onToggleCompleted(TodoItem todo) {
+                        unfinishedTodos.remove(todo);
+                        todo.setCompleted(true);
+                        finishedTodos.add(todo);
+                        MoneyStorage.save(MainActivity.this, todo.getReward());
+                        saveTodos();
+                    }
+
+                    @Override
+                    public void onDelete(TodoItem todo) {
+                        unfinishedTodos.remove(todo);
+                        saveTodos();
+                    }
+                }
+        );
+
+        finishedAdapter = new TodoAdapter(
+                this,
+                finishedTodos,
+                new OnTodoChangedListener() {
+                    @Override
+                    public void onToggleCompleted(TodoItem todo) {
+                        finishedTodos.remove(todo);
+                        todo.setCompleted(false);
+                        unfinishedTodos.add(todo);
+                        MoneyStorage.save(MainActivity.this, -todo.getReward());
+                        saveTodos();
+                    }
+
+                    @Override
+                    public void onDelete(TodoItem todo) {
+                        finishedTodos.remove(todo);
+                        saveTodos();
+                    }
+                }
+        );
 
         unfinishedListView.setAdapter(unfinishedAdapter);
         finishedListView.setAdapter(finishedAdapter);
@@ -66,14 +118,21 @@ public class MainActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+
                         String title = result.getData().getStringExtra(AddTodoActivity.EXTRA_TITLE);
                         String reward = result.getData().getStringExtra(AddTodoActivity.EXTRA_REWARD);
 
-                        if (title != null && !title.trim().isEmpty() &&
-                                reward != null && !reward.trim().isEmpty()) {
-                            todoList.add(new TodoItem(title.trim(), Float.parseFloat(reward.trim())));
-                            sortTodoList();
-                            TodoStorage.save(this, todoList);
+                        if (title != null && !title.isEmpty()
+                                && reward != null && !reward.isEmpty()) {
+
+                            TodoItem todo = new TodoItem(
+                                    title.trim(),
+                                    Float.parseFloat(reward.trim())
+                            );
+
+                            todo.setCompleted(false);
+                            unfinishedTodos.add(todo);
+                            saveTodos();
                         }
                     }
                 }
@@ -86,23 +145,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void sortTodoList() {
-        finishedTodos.clear();
-        unfinishedTodos.clear();
-
-        for (TodoItem todo : todoList) {
-            if (todo.getCompleted())
-                finishedTodos.add(todo);
-            else
-                unfinishedTodos.add(todo);
-        }
-
-        if (unfinishedAdapter != null) {
-            unfinishedAdapter.notifyDataSetChanged();
-        }
-
-        if (finishedAdapter != null) {
-            finishedAdapter.notifyDataSetChanged();
-        }
+    private void saveTodos() {
+        unfinishedAdapter.notifyDataSetChanged();
+        finishedAdapter.notifyDataSetChanged();
+        TodoStorage.save(this, unfinishedTodos, finishedTodos);
     }
 }

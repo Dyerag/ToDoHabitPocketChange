@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Pocket</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="todo">Todo</string>
     <string name="habit">Habits</string>
     <string name="pocket_money">PocketMoney</string>

@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="Navigation">
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <Button
-        android:id="@+id/todo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/todo"/>
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="3"
+    android:padding="8dp"
+    android:background="#EEEEEE">
 
     <Button
-        android:id="@+id/habit"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnTasks"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/habit"/>
+        android:layout_weight="1"
+        android:text="Tasks" />
 
     <Button
-        android:id="@+id/pocket_money"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnHabits"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/pocket_money"/>
+        android:layout_weight="1"
+        android:text="Habits" />
 
+    <Button
+        android:id="@+id/btnMoney"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Balance" />
 </LinearLayout>

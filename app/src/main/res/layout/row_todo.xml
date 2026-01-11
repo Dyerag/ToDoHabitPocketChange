@@ -24,7 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingStart="8dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textColor="#2E7D32" />
 
     <TextView
         android:id="@+id/creationDate"

@@ -17,10 +17,11 @@ import java.util.List;
 public class TodoAdapter extends ArrayAdapter<TodoItem> {
     private OnTodoChangedListener listener;
 
-    public TodoAdapter(@NonNull Context context, List<TodoItem> todos, OnTodoChangedListener listener) {
+    public TodoAdapter(Context context, List<TodoItem> todos, OnTodoChangedListener listener) {
         super(context, 0, todos);
         this.listener = listener;
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -38,29 +39,27 @@ public class TodoAdapter extends ArrayAdapter<TodoItem> {
         Button deleteBtn = convertView.findViewById(R.id.deleteBtn);
 
         textTitle.setText(todo.getName());
-        reward.setText(String.valueOf(todo.getReward()));
+        reward.setText("Reward: " + todo.getReward() + " kr.");
         createdDate.setText(todo.getCreated().toString());
-        completed.setChecked(todo.getCompleted());
 
         completed.setOnCheckedChangeListener(null);
         completed.setChecked(todo.getCompleted());
 
         completed.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            todo.setCompleted(isChecked);
             if (listener != null) {
-                listener.onTodoChanged();
+                listener.onToggleCompleted(todo);
             }
-            MoneyStorage.save(getContext(), isChecked ? todo.getReward() : -todo.getReward());
         });
 
         deleteBtn.setOnClickListener(v -> {
-            remove(todo);
-            notifyDataSetChanged();
-            TodoStorage.save(getContext(), new ArrayList<>(getAllItems()));
+            if (listener != null) {
+                listener.onDelete(todo);
+            }
         });
 
         return convertView;
     }
+
 
     private ArrayList<TodoItem> getAllItems() {
         ArrayList<TodoItem> items = new ArrayList<>();
